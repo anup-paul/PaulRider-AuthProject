@@ -17,7 +17,7 @@ const Home = () => {
     },[])
 
     return (
-        <body style={{ backgroundImage: `url(${backgroundImage})`, height: "100%" }}>
+        <body style={{ backgroundColor: "lightblue" }}>
             <div className="d-flex justify-content-center align-items-center homepage-design">
                 {
                     transports.map(transport => <Transport transport={transport} ></Transport>)

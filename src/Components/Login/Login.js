@@ -63,26 +63,25 @@ const Login = () => {
             const passwordNumber = /\d{1}/.test(event.target.value);
             isFieldValid = isPasswordValid && passwordNumber;
         }
-        // if(event.target.name === "confirmPassword")
-        // {
-        //     const isCNPasswordValid = event.target.value.length > 4;
-        //     const CNPasswordNumber = /\d{1}/.test(event.target.value);
-        //     isFieldValid = isCNPasswordValid && CNPasswordNumber;
-        // }
-        if (isFieldValid) {
-            const newUserInfo = { ...user };
-            newUserInfo[event.target.name] = event.target.value;
-            setUser(newUserInfo);
+        if (event.target.name === "password"  || event.target.name === "confirmPassword") {
+
+            const isCNPasswordValid = event.target.value.length > 4;
+            const CNPasswordNumber = /\d{1}/.test(event.target.value);
+            isFieldValid = isCNPasswordValid && CNPasswordNumber;
         }
     }
 
 
-    const { register, handleSubmit, watch, errors} = useForm();
+    const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
-    //    console.log(data);
+        //    console.log(data);
+
         if (newUser && data.email && data.password) {
-            firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
+            if(data.password === data.confirmPassword)
+            {
+                firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
                 .then(res => {
+
                     const newUser = res.user;
                     const newUserInfo = { ...newUser };
                     newUserInfo.error = '';
@@ -99,12 +98,22 @@ const Login = () => {
                     newUserInfo.success = false;
                     setUser(newUserInfo);
                 });
+            }
+            else
+            {
+                const newUserInfo = { ...user }
+                newUserInfo.error ="Password didn't match" ;
+                newUserInfo.success = false;
+                setUser(newUserInfo);
+
+            }
 
         }
 
         if (!newUser && data.email && data.password) {
             firebase.auth().signInWithEmailAndPassword(data.email, data.password)
                 .then(res => {
+
                     console.log(res)
                     const newUser = res.user;
                     const newUserInfo = { ...newUser };
@@ -119,11 +128,9 @@ const Login = () => {
                     console.log(errorMessage)
                 });
         }
-        
-    // event.preventDefault();
+
     }
-    
-    // console.log(watch("example"));
+
 
 
 
@@ -141,8 +148,6 @@ const Login = () => {
 
     return (
         <div >
-            {/* <input type="checkbox" onChange={() => setNewUser(!newUser)} />
-            <label htmlFor="newUser" >New User Sign up</label> */}
             <form onSubmit={handleSubmit(onSubmit)} className="form-design " >
 
                 {
@@ -156,8 +161,10 @@ const Login = () => {
                 <input type="password" name="password" onBlur={handleBlur} ref={register({ required: true })} placeholder="password" />
                 {errors.password && <span style={{ color: "red" }} >This field is required</span>}
 
-                {/* <input type="password" name="confirmPassword" onBlur={handleBlur} ref={register({ required: true })} placeholder="Confirm password" />
-                {errors.confirmPassword && <span style={{ color: "red" }} >This field is required</span>} */}
+                {
+                    newUser && <input type="password" name="confirmPassword" onBlur={handleBlur} ref={register({ required: true })} placeholder="Confirm password" />
+                }
+                {errors.confirmPassword && <span style={{ color: "red" }} >This field is required</span>}
 
                 <input className="btn btn-primary" type="submit" value={newUser ? "Create your Account" : "Login your Account"} />
                 <p style={{ color: "red" }} >{user.error}</p>
@@ -171,7 +178,7 @@ const Login = () => {
                 {
                     <Link onClick={() => setNewUser(!newUser)} >{newUser ? "Login your account" : "Create your account"}</Link>
                 }
-                <br/>
+                <br />
                 <p><span>Or</span></p>
                 <button onClick={handleGoogleSignIn} className="btn btn-warning">Sign In With Google</button>
             </form>

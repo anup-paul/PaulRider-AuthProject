@@ -11,10 +11,19 @@ const Description = () => {
         setTransport(data);
     })
 
-    const newData = transports.find(trs => trs.id === parseInt(id));
-    console.log(newData);   
+    const newData = transports.find(trs => trs.id === parseInt(id));   
 
     const[handleSearch, setHandleSearch] = useState(false);
+
+    const [searchPickup, setSearchPickup] = useState('');
+    const handlePickUp = (event) => {
+        setSearchPickup(event.target.value);
+    }
+
+    const [searchDestination, setSearchDestination] = useState('');
+    const handleDestination = (event) => {
+        setSearchDestination(event.target.value)
+    }
 
     return (
         <div className="deign-page row ">
@@ -25,11 +34,11 @@ const Description = () => {
                     {
                         handleSearch ?
                         (<div className="destination-text-design">
-                            <h6 >Mirpur 12</h6>
+                            <h6 >{searchPickup}</h6>
                             <h6>to</h6>
-                            <h6>Dhanmondi</h6>
+                            <h6>{searchDestination}</h6>
                         </div>) :
-                        <p> pick form</p>
+                        <h5> pick form</h5>
                     }
                     {
                         handleSearch ?
@@ -38,7 +47,7 @@ const Description = () => {
                         <h6 className="mx-4" >{newData.name}</h6>
                         <h6 className="mx-4" >Person:{newData.person}</h6>
                         </div>) :
-                        <input className="form-control" type="text" name="" id="" />
+                        <input className="form-control" type="text" name="pick-up" onChange={handlePickUp} placeholder="enter your pickup address" />
                     }
                     {
                         handleSearch ? 
@@ -47,7 +56,7 @@ const Description = () => {
                         <h6 className="mx-4" >{newData.name}</h6>
                         <h6 className="mx-4" >Person:{newData.person}</h6>
                         </div>)  :
-                        <p>Pick to</p>
+                        <h5>Pick to</h5>
                     }
                     {
                         handleSearch ?
@@ -56,7 +65,7 @@ const Description = () => {
                         <h6 className="mx-4" >{newData.name}</h6>
                         <h6 className="mx-4" >Person:{newData.person}</h6>
                         </div>) :
-                        <input className="form-control" type="text" name="" id="" />
+                        <input className="form-control" type="text" name="destination" onChange={handleDestination} placeholder="enter your destination address" />
                     }
                     <br/>
                     <input type="submit" value="search" onClick={()=>setHandleSearch(!handleSearch)} className="btn btn-primary"/>

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 const Header = () => {
+     const[loggedInUser, setLoggedInUser] = useContext(UserContext);
     return (
         <div>
 
@@ -19,7 +21,13 @@ const Header = () => {
                             <Link to="/Description" className="nav-link active" aria-current="page">Description</Link>
                             <Link to="/Blog" className="nav-link active" aria-current="page">Blog</Link>
                             <Link to="/Contact" className="nav-link active" aria-current="page">Contact</Link>
-                            <Link to="/Login" className="nav-link active" aria-current="page">Login</Link>
+                            {
+                                loggedInUser.name ?
+                                <h5 className="nav-link active" aria-current="page" >{loggedInUser.name}</h5> :
+                                <Link to="/Login" className="nav-link active" aria-current="page">Login</Link>
+                            }
+                            
+                             
                         </div>
                     </div>
                 </div>
