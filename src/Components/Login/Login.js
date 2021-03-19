@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import firebase from "firebase/app";
 import "firebase/auth";
 import firebaseConfig from './firebaseConfig';
 import { useForm } from 'react-hook-form';
 import './Login.css'
-import { Link } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+import { UserContext } from '../../App';
 
 if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
@@ -23,6 +24,12 @@ const Login = () => {
     })
     const [newUser, setNewUser] = useState(false);
 
+    const [loggedInUser, setLoggedInUser] = useContext(UserContext);
+
+    let history = useHistory();
+    let location = useLocation();
+    let { from } = location.state || { from: { pathname: "/" } };
+
 
     const handleGoogleSignIn = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -36,12 +43,10 @@ const Login = () => {
                     email: email
                 }
                 setUser(signInUser);
-                console.log(signInUser);
+                setLoggedInUser(signInUser);
+                history.replace(from);
             }).catch((error) => {
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                var email = error.email;
-                var credential = error.credential;
+                setUser(error.message)
             });
     }
 
@@ -72,11 +77,11 @@ const Login = () => {
     }
 
 
-    const { register, handleSubmit, watch, errors } = useForm();
-    const onSubmit = event => {
-
-        if (newUser && user.email && user.password) {
-            firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+    const { register, handleSubmit, watch, errors} = useForm();
+    const onSubmit = data => {
+    //    console.log(data);
+        if (newUser && data.email && data.password) {
+            firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
                 .then(res => {
                     const newUser = res.user;
                     const newUserInfo = { ...newUser };
@@ -85,7 +90,8 @@ const Login = () => {
                     newUserInfo.name = user.name;
                     setUser(newUserInfo);
                     updateUserName(user.name);
-                    console.log(newUserInfo)
+                    setLoggedInUser(newUserInfo);
+                    history.replace(from);
                 })
                 .catch((error) => {
                     const newUserInfo = { ...user }
@@ -96,8 +102,8 @@ const Login = () => {
 
         }
 
-        if (!newUser && user.email && user.password) {
-            firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        if (!newUser && data.email && data.password) {
+            firebase.auth().signInWithEmailAndPassword(data.email, data.password)
                 .then(res => {
                     console.log(res)
                     const newUser = res.user;
@@ -105,19 +111,21 @@ const Login = () => {
                     newUserInfo.error = '';
                     newUserInfo.success = true;
                     setUser(newUserInfo);
+                    setLoggedInUser(newUserInfo);
+                    history.replace(from);
                 })
                 .catch((error) => {
-                    var errorCode = error.code;
                     var errorMessage = error.message;
                     console.log(errorMessage)
                 });
         }
-
-        //  event.preventDefault();
+        
+    // event.preventDefault();
     }
-    console.log(watch("example"));
+    
+    // console.log(watch("example"));
 
-   
+
 
     const updateUserName = name => {
         const user = firebase.auth().currentUser;
@@ -126,15 +134,15 @@ const Login = () => {
         }).then(function () {
             console.log("update userName successfully")
         }).catch(function (error) {
-           console.log(error);
+            console.log(error);
         });
     }
 
 
     return (
         <div >
-            <input type="checkbox" onChange={() => setNewUser(!newUser)} />
-            <label htmlFor="newUser" >New User Sign up</label>
+            {/* <input type="checkbox" onChange={() => setNewUser(!newUser)} />
+            <label htmlFor="newUser" >New User Sign up</label> */}
             <form onSubmit={handleSubmit(onSubmit)} className="form-design " >
 
                 {
@@ -157,13 +165,16 @@ const Login = () => {
                     user.success && <p style={{ color: "green" }}>User {newUser ? "created" : "logged in"} successfully</p>
                 }
 
-
-                {/* <Link> Create your Account </Link> */}
-
+                {
+                    newUser ? <p>Already have an account ? </p> : <p> Don't have an account ? </p>
+                }
+                {
+                    <Link onClick={() => setNewUser(!newUser)} >{newUser ? "Login your account" : "Create your account"}</Link>
+                }
+                <br/>
+                <p><span>Or</span></p>
+                <button onClick={handleGoogleSignIn} className="btn btn-warning">Sign In With Google</button>
             </form>
-            <button onClick={handleGoogleSignIn} className="btn btn-warning">Sign In With Google</button>
-            <p>Name:{user.name}</p>
-            <p>Email:{user.email}</p>
         </div>
     );
 };

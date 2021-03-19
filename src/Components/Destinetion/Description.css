@@ -1,0 +1,22 @@
+.form-design
+{
+    width: 300px;
+    margin-bottom: 20px;
+}
+.form-design input
+{
+    width: 250px;
+}
+.form-design img
+{
+    height: 50px;
+}
+.destination-text-design
+{
+    border-bottom: 2px solid tomato;
+    background-color: rgb(31, 31, 54);
+    color: white;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 5px;
+}

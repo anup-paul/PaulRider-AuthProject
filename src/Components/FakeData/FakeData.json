@@ -1,0 +1,21 @@
+[{
+  "id": 1,
+  "name": "Bike",
+  "person":1,
+  "image":"https://i.ibb.co/VW50jRs/Frame.png"
+}, {
+  "id": 2,
+  "name": "Cab",
+  "person":4,
+  "image":"https://i.ibb.co/bB3LbXL/Frame-2.png"
+}, {
+  "id": 3,
+  "name": "Bus",
+  "person":7,
+  "image":"https://i.ibb.co/S5FkQgc/Frame-1.png"
+}, {
+  "id": 4,
+  "name": "Train",
+  "person":50,
+  "image":"https://i.ibb.co/dGCg0w4/Group.png"
+}]

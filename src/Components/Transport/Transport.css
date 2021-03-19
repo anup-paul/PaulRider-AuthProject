@@ -1,14 +1,12 @@
-/* .homepage-design img
+.image-size img
 {
     height: 200px;
     background-color: white;
     padding: 10px;
     margin-left: 20px;
     border-radius: 10px;
-    
-} */
-.homepage-design
+}
+.page-design
 {
-    height: 600px;
-   
+    margin-left: 40px;
 }
