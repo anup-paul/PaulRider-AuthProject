@@ -1,0 +1,16 @@
+.form-design 
+{
+    border: 1px solid black;
+    margin-left:30%;
+    width: 500px;
+    padding: 20px;
+    display: block;
+    text-align: center;
+}
+.form-design input
+{
+    margin-top: 20px;
+    display: block;
+    width: 450px;
+    border-radius: 5px;
+}
