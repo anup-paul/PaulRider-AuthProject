@@ -13,6 +13,7 @@ if (firebase.apps.length === 0) {
 
 const Login = () => {
 
+    //user state
     const [user, setUser] = useState({
         isSignIn: false,
         name: '',
@@ -22,15 +23,20 @@ const Login = () => {
         success: false,
         error: ''
     })
+    
+    //new user state
     const [newUser, setNewUser] = useState(false);
 
+    //call contextApi
     const [loggedInUser, setLoggedInUser] = useContext(UserContext);
 
+    //private route path
     let history = useHistory();
     let location = useLocation();
-    let { from } = location.state || { from: { pathname: "/" } };
+    let { from } = location.state || { from: { pathname: "/Description" } };
 
 
+    //googleSignIN
     const handleGoogleSignIn = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
@@ -51,7 +57,7 @@ const Login = () => {
     }
 
 
-
+    //use form valid condition
     const handleBlur = (event) => {
         let isFieldValid = true;
         if (event.target.name === 'email') {
@@ -72,6 +78,7 @@ const Login = () => {
     }
 
 
+    //onSubmit function
     const { register, handleSubmit, watch, errors } = useForm();
     const onSubmit = data => {
         //    console.log(data);
@@ -132,8 +139,7 @@ const Login = () => {
     }
 
 
-
-
+    //update user name
     const updateUserName = name => {
         const user = firebase.auth().currentUser;
         user.updateProfile({

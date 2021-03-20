@@ -14,10 +14,10 @@ const Home = () => {
     const [transports, setTransport] = useState([]);
     useEffect(() => {
         setTransport(data)
-    },[])
+    }, [])
 
     return (
-        <body style={{ backgroundColor: "lightblue",height:"100%" }}>
+        <body style={{ backgroundColor: "lightblue", height: "100%" }}>
             <div className=" row d-flex justify-content-center align-items-center homepage-design">
                 {
                     transports.map(transport => <Transport transport={transport} ></Transport>)
