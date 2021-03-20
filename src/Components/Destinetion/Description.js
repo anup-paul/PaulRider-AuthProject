@@ -3,6 +3,7 @@ import './Description.css'
 import map from '../../images/Map.png';
 import { useParams } from 'react-router';
 import data from '../FakeData/FakeData.json';
+import { Map } from '../Map/Map';
 
 const Description = () => {
     const { id } = useParams();
@@ -47,7 +48,7 @@ const Description = () => {
                         <h6 className="mx-4" >{newData.name}</h6>
                         <h6 className="mx-4" >Person:{newData.person}</h6>
                         </div>) :
-                        <input className="form-control" type="text" name="pick-up" onChange={handlePickUp} placeholder="enter your pickup address" />
+                        <input className="form-control" type="text" name="pick-up" required onChange={handlePickUp} placeholder="enter your pickup address" />
                     }
                     {
                         handleSearch ? 
@@ -65,13 +66,17 @@ const Description = () => {
                         <h6 className="mx-4" >{newData.name}</h6>
                         <h6 className="mx-4" >Person:{newData.person}</h6>
                         </div>) :
-                        <input className="form-control" type="text" name="destination" onChange={handleDestination} placeholder="enter your destination address" />
+                        <input className="form-control" type="text" name="destination" required onChange={handleDestination}  placeholder="enter your destination address" />
                     }
                     <br/>
-                    <input type="submit" value="search" onClick={()=>setHandleSearch(!handleSearch)} className="btn btn-primary"/>
+                    {
+                        handleSearch ? "" 
+                        : <input type="submit" value="search" onClick={()=>setHandleSearch(!handleSearch)} className="btn btn-primary"/>
+                    }
+                    
                 </div>
                 <div>
-                    <img src={map} alt="" />
+                    {/* <Map></Map> */}
                 </div>
             </div>
         </div>

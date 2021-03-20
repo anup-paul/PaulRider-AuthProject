@@ -9,8 +9,8 @@ const Transport = (props) => {
         history.push(`/Description/${id}`)
     }
     return (
-        <div className="page-design">
-            <div className="  image-size">
+        <div className=" page-design">
+            <div className=" image-size">
                <Link onClick={()=>handleClick(id)} > <img src={image} alt="" /></Link>
             </div>
         </div>

@@ -22,8 +22,8 @@ const Header = () => {
                             <Link to="/Blog" className="nav-link active" aria-current="page">Blog</Link>
                             <Link to="/Contact" className="nav-link active" aria-current="page">Contact</Link>
                             {
-                                loggedInUser.name ?
-                                <h5 className="nav-link active" aria-current="page" >{loggedInUser.name}</h5> :
+                                loggedInUser.displayName ?
+                                <h5 className="nav-link active" aria-current="page" >{loggedInUser.displayName}</h5> :
                                 <Link to="/Login" className="nav-link active" aria-current="page">Login</Link>
                             }
                             

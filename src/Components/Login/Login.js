@@ -39,7 +39,7 @@ const Login = () => {
                 const { displayName, email } = res.user;
                 const signInUser = {
                     isSignIn: true,
-                    name: displayName,
+                    displayName,
                     email: email
                 }
                 setUser(signInUser);
@@ -81,7 +81,7 @@ const Login = () => {
             {
                 firebase.auth().createUserWithEmailAndPassword(data.email, data.password)
                 .then(res => {
-
+                    
                     const newUser = res.user;
                     const newUserInfo = { ...newUser };
                     newUserInfo.error = '';
@@ -179,9 +179,9 @@ const Login = () => {
                     <Link onClick={() => setNewUser(!newUser)} >{newUser ? "Login your account" : "Create your account"}</Link>
                 }
                 <br />
-                <p><span>Or</span></p>
-                <button onClick={handleGoogleSignIn} className="btn btn-warning">Sign In With Google</button>
+                <p style={{marginTop:"10px"}}><span>Or</span></p>
             </form>
+            <button onClick={handleGoogleSignIn} className="btn btn-warning googleBtn">Sign In With Google</button>
         </div>
     );
 };
