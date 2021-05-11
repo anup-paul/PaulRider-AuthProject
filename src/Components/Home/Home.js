@@ -18,6 +18,7 @@ const Home = () => {
 
     return (
         <body style={{ backgroundColor: "lightblue", height: "100%" }}>
+            <h1>hello</h1>
             <div className=" row d-flex justify-content-center align-items-center homepage-design">
                 {
                     transports.map(transport => <Transport transport={transport} ></Transport>)
